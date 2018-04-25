@@ -24,16 +24,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         initializePresenter()
     }
 
-    override fun onStop() {
-        super.onStop()
-        when {
-            true -> {
-                //presenter.finalizeView()
-            }
-        }
-    }
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> finish()

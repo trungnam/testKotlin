@@ -11,6 +11,7 @@ abstract class BasePresenter<in T : BaseView>{
     abstract fun detachView(view: T)
     abstract fun attachView(view: T)
 
+
     open fun initialize (extras: Bundle) {}
 
 }

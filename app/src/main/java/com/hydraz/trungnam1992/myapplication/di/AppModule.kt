@@ -4,6 +4,7 @@ import android.app.Application
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import io.realm.Realm
 import javax.inject.Singleton
 
 /**
@@ -26,8 +27,13 @@ class AppModule {
     @Provides
     @Singleton
     fun providerCompositeDisposable(): CompositeDisposable {
-        val compositeDisposable = CompositeDisposable()
-        return compositeDisposable
+        return CompositeDisposable()
+    }
+
+    @Provides
+    @Singleton
+    fun providerRealm() : Realm{
+        return Realm.getDefaultInstance()
     }
 
 }
