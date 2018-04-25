@@ -5,8 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hydraz.trungnam1992.myapplication.R
+import com.hydraz.trungnam1992.myapplication.ui.contact.FragmentUserInputContact
+import com.hydraz.trungnam1992.myapplication.ui.contact.MainActivityContact
+import com.hydraz.trungnam1992.myapplication.ui.presenter.FragmentUserInputPresenter
+import javax.inject.Inject
 
-class FragmentUserInput : BaseFragment() {
+class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserInputView {
+
+    @Inject
+    lateinit var mPresenter : FragmentUserInputPresenter
+
+    override fun summitStatus() {
+
+    }
+
+    override fun changeFragment() {
+
+    }
+
+    override fun inputMessage() {
+
+    }
 
     companion object {
         @JvmStatic
@@ -17,7 +36,7 @@ class FragmentUserInput : BaseFragment() {
 
 
     override fun initPresenter() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mPresenter.attachView(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,

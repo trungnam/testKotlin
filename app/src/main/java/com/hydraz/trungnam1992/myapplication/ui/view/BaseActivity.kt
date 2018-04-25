@@ -31,4 +31,9 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
         return super.onOptionsItemSelected(item)
     }
 
+    fun changeFragment(fragment: BaseFragment){
+        //
+        fragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()
+    }
+
 }

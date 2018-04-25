@@ -24,7 +24,6 @@ class MainPresenter @Inject constructor(
     }
 
     override fun statFragment() {
-
         mView.startInputFragment(FragmentUserInput.newInstance(Bundle()))
     }
 }

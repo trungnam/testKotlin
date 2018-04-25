@@ -1,7 +1,5 @@
 package com.hydraz.trungnam1992.myapplication.ui.view
 
-
-import android.app.FragmentManager
 import com.hydraz.trungnam1992.myapplication.App
 import com.hydraz.trungnam1992.myapplication.R
 import com.hydraz.trungnam1992.myapplication.ui.contact.MainActivityContact
@@ -28,8 +26,7 @@ class MainActivity : BaseActivity(), MainActivityContact.MainView {
     }
 
     override fun startInputFragment(fragment: BaseFragment) {
-        //to do in Base Ac late
-        fragmentManager.beginTransaction().add(android.R.id.content ,fragment).commit()
+        changeFragment(fragment)
     }
 
 }
