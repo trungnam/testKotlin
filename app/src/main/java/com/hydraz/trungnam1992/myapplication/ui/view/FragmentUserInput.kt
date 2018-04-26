@@ -14,7 +14,7 @@ import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_fragment_user_input.*
 import javax.inject.Inject
 
-class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserInputView {
+open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserInputView {
 
     @Inject
     lateinit var mPresenter : FragmentUserInputPresenter
@@ -84,5 +84,10 @@ class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserI
         btnPostStatus.setOnClickListener(View.OnClickListener {
             mPresenter.save(context)
         })
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        mPresenter.detachView(this)
     }
 }

@@ -1,5 +1,6 @@
 package com.hydraz.trungnam1992.myapplication.di
 
+import com.hydraz.trungnam1992.myapplication.ui.view.FragmentListStatus
 import com.hydraz.trungnam1992.myapplication.ui.view.FragmentUserInput
 import com.hydraz.trungnam1992.myapplication.ui.view.MainActivity
 import dagger.Component
@@ -15,5 +16,7 @@ interface AppComponent{
     fun inject(activity: MainActivity)
 
     fun inject(input: FragmentUserInput)
+
+    fun inject(input: FragmentListStatus)
 
 }

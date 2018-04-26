@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hydraz.trungnam1992.myapplication.ui.view.base.ListStatusFragment">
+    tools:context="com.hydraz.trungnam1992.myapplication.ui.view.FragmentListStatus">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

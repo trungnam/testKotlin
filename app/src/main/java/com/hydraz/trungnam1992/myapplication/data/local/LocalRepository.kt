@@ -23,6 +23,7 @@ class LocalRepository @Inject constructor(realm: Realm) : LocalResource {
     override fun getStatus(): Single<ArrayList<Status>> {
 
         return create{
+
             e: SingleEmitter<ArrayList<Status>> ->
 
             val arr : ArrayList<Status> = ArrayList()
@@ -48,6 +49,10 @@ class LocalRepository @Inject constructor(realm: Realm) : LocalResource {
                 for(stringsts : String in array){
                     val statusRealm = mRealm.createObject<Status>(Status::class.java)
                     statusRealm.statusMsg = stringsts
+                    when{
+                        array.size == 1 -> statusRealm.typeMsg = Status.SINGLE_MSG
+                        else -> statusRealm.typeMsg = Status.SPLIT_MSG
+                    }
                     realm.copyToRealm(statusRealm)
                 }
                 Toast.makeText(context, "Success: ", Toast.LENGTH_SHORT).show()

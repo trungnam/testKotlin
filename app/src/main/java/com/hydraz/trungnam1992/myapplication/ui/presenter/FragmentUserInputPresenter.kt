@@ -20,17 +20,19 @@ import kotlin.collections.ArrayList
 /**
  * Created by trungnam1992 on 4/25/18.
  */
-class FragmentUserInputPresenter @Inject constructor(
-            //todo
-            private val dataRepository: DataRepository,
-            private val compositeDisposable: CompositeDisposable
-        ) : BasePresenter<FragmentUserInputContact.FragmentUserInputView>() , FragmentUserInputContact.Presenter {
+open class FragmentUserInputPresenter @Inject constructor(
+        //todo
+        var dataRepository: DataRepository,
+        var compositeDisposable: CompositeDisposable
+) : BasePresenter<FragmentUserInputContact.FragmentUserInputView>(), FragmentUserInputContact.Presenter {
 
-    @Inject lateinit var mDataRepository: DataRepository
+    @Inject
+    lateinit var mDataRepository: DataRepository
 
-    private lateinit var mView : FragmentUserInputContact.FragmentUserInputView
+    lateinit var mView: FragmentUserInputContact.FragmentUserInputView
 
-    private var arrSave : ArrayList<String> = ArrayList()
+    var arrSave: ArrayList<String> = ArrayList()
+
     override fun detachView(view: FragmentUserInputContact.FragmentUserInputView) = Unit
 
     override fun attachView(view: FragmentUserInputContact.FragmentUserInputView) {
@@ -79,8 +81,8 @@ class FragmentUserInputPresenter @Inject constructor(
 
     }
 
-    fun save(context: Context){
-        dataRepository.saveListStatus(arrSave ,context)
+    fun save(context: Context) {
+        dataRepository.saveListStatus(arrSave, context)
 
 //        dataRepository.getListStatus().delay(300, TimeUnit.MILLISECONDS)
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -92,6 +94,7 @@ class FragmentUserInputPresenter @Inject constructor(
 //                    Log.e("dddxxx" , "" + t.message)
 //                })
     }
+
     override fun splitMessageObserverble(strMsg: String): Observable<ArrayList<String>> {
 
         return Observable.create {
@@ -99,7 +102,7 @@ class FragmentUserInputPresenter @Inject constructor(
 
                 it.onNext(splitMessage(strMsg))
 
-            }catch (e : Exception){
+            } catch (e: Exception) {
 
             }
         }
@@ -111,6 +114,8 @@ class FragmentUserInputPresenter @Inject constructor(
         val arrayList: ArrayList<String> = ArrayList()
 
         when {
+            str.isEmpty() ->
+                return arrayList
             str.length < 50 ->
                 return arrayListOf(str)
             str.length > 50 -> {
@@ -121,7 +126,7 @@ class FragmentUserInputPresenter @Inject constructor(
                 if (strMsg.length % 50 != 0) {
                     size + 1 // increase 1
                 }
-                val arrayIndicator = (0..size).mapTo(ArrayList()) { "${it +1 }" + "/" + "${size +1 } " }
+                val arrayIndicator = (0..size).mapTo(ArrayList()) { "${it + 1}" + "/" + "${size + 1} " }
 
                 var finalStr = strMsg
                 for (a: String in arrayIndicator) {

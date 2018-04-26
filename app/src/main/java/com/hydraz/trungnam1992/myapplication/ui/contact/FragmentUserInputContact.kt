@@ -7,21 +7,23 @@ import java.util.*
 /**
  * Created by trungnam1992 on 4/25/18.
  */
-class FragmentUserInputContact{
+open class FragmentUserInputContact {
 
     interface FragmentUserInputView : BaseView {
         fun summitStatus()
         fun changeFragment()
         fun inputMessage()
-        fun showError(err : String)
-        fun enableSummirButton(bool : Boolean)
+        fun showError(err: String)
+        fun enableSummirButton(bool: Boolean)
         fun showLoadingBar()
         fun hideLoadingBar()
     }
-    interface Presenter{
+
+    interface Presenter {
         //todo
-        fun checkInputMessage(strMsg : String)
-        fun splitMessageObserverble(strMsg: String) : Observable<ArrayList<String>>
+        fun checkInputMessage(strMsg: String)
+
+        fun splitMessageObserverble(strMsg: String): Observable<ArrayList<String>>
     }
 
 }
