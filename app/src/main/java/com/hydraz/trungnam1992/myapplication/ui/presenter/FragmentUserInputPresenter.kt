@@ -1,6 +1,9 @@
 package com.hydraz.trungnam1992.myapplication.ui.presenter
 
+import android.text.TextUtils
+import android.util.Log
 import com.hydraz.trungnam1992.myapplication.ui.contact.FragmentUserInputContact
+import com.hydraz.trungnam1992.myapplication.utils.StringUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import java.util.ArrayList
@@ -11,7 +14,6 @@ import javax.inject.Inject
  * Created by trungnam1992 on 4/25/18.
  */
 class FragmentUserInputPresenter @Inject constructor() : BasePresenter<FragmentUserInputContact.FragmentUserInputView>() , FragmentUserInputContact.Presenter {
-
 
     private lateinit var mView : FragmentUserInputContact.FragmentUserInputView
 
@@ -27,7 +29,7 @@ class FragmentUserInputPresenter @Inject constructor() : BasePresenter<FragmentU
                 .map({
                     //check empty before split msg
                     if(it.isEmpty()){
-                        throw Exception("Empty")
+                        throw Exception("Empty Message")
                     }
                     return@map it
                 })
@@ -36,13 +38,17 @@ class FragmentUserInputPresenter @Inject constructor() : BasePresenter<FragmentU
                           return@flatMap  splitMessageObserverble(it)
                         }
                 ).subscribe(
-                        { t : ArrayList<String> ->
+                        { arr : ArrayList<String> ->
+                            Log.e("nnam :", "" + arr)
+                            if(arr.isEmpty()){
+                                throw Exception("Message cannot chunk")
+                            }
                             //to do save to DB
                         },
-                        { t : Throwable->
+                        { err : Throwable->
                             //
+                            mView.showError(err.message.toString())
                         })
-
 
     }
 
@@ -59,61 +65,69 @@ class FragmentUserInputPresenter @Inject constructor() : BasePresenter<FragmentU
         }
     }
 
-    fun splitMessage(str : String) : ArrayList<String>{
+    fun splitMessage(str: String): ArrayList<String> {
 
-        var arrayList : ArrayList<String> = ArrayList()
+        val arrayList: ArrayList<String> = ArrayList()
 
         when {
             str.length < 50 ->
                 return arrayListOf(str)
             str.length > 50 -> {
                 //to do
-                val strMsg=  str
-                val lenghthofmsg= strMsg.length
+                val strMsg = str
+                val lenghtOfMsg = strMsg.length
                 val size = strMsg.length / 50
-               if(strMsg.length%50 !=0){
-                   size + 1 // increase 1
-               }
-               val arrayindicator : ArrayList<String> = ArrayList()
-               for ( i in 0..size ){
-                   val idstr = "$i-$size "
-                   arrayindicator.add(idstr)
-               }
+                if (strMsg.length % 50 != 0) {
+                    size + 1 // increase 1
+                }
+                val arrayIndicator = (0..size).mapTo(ArrayList()) { "${it +1 }" + "/" + "${size +1 } " }
+
                 var finalStr = strMsg
-                for (a : String in arrayindicator){
-                   finalStr+= a
-               }
+                for (a: String in arrayIndicator) {
+                    finalStr += a
+                }
                 //return arr
-                var currindex = 0
-                var idicatorleng = 0
+                var currentIndex = 0
+                var idicatorLenght = 0
                 var strTmp = ""
                 (0..size).forEach { i ->
-                    strTmp += arrayindicator[i]
-
+                    strTmp += arrayIndicator[i]
                     when (i) {
                         0 -> {
-                            for (j in 0 ..(50 - arrayindicator[i].length-1)){
+                            (0..(50 - arrayIndicator[i].length - 1)).forEach { j ->
                                 strTmp += strMsg.toCharArray()[j]
-                                currindex = j
+                                currentIndex = j
                             }
-                            idicatorleng += arrayindicator[i].length
+                            idicatorLenght += arrayIndicator[i].length
+
+                            if (!TextUtils.isEmpty(strMsg.toCharArray()[currentIndex].toString().trim())) {
+                                //return null arr
+                                return arrayList
+                            }
                             arrayList.add(strTmp)
                         }
                         else -> {
                             strTmp = "" //clear
-                            strTmp += arrayindicator[i]
-                            currindex+1
-                            idicatorleng += arrayindicator[i].length
+                            strTmp += arrayIndicator[i]
+                            currentIndex + 1
+                            idicatorLenght += arrayIndicator[i].length
                             when {
-                                50*(i+1) > finalStr.length -> for (k in currindex..(lenghthofmsg-1)){
-                                    strTmp += strMsg.toCharArray()[k]
+                                50 * (i + 1) > finalStr.length -> {
+                                    for (k in currentIndex..(lenghtOfMsg - 1)) {
+                                        strTmp += strMsg.toCharArray()[k]
+                                    }
                                 }
                                 else -> {
-                                    for (k in currindex..(50*(i+1) - (idicatorleng) - 1)){
+                                    for (k in currentIndex..(50 * (i + 1) - (idicatorLenght) - 2)) {
                                         strTmp += strMsg.toCharArray()[k]
-                                        currindex = k
+                                        currentIndex = k
                                     }
-                                    idicatorleng += arrayindicator[i].length
+                                    if (!TextUtils.isEmpty(strMsg.toCharArray()[currentIndex].toString().trim())) {
+                                        //return null arr
+                                        arrayList.clear()
+                                        return arrayList
+                                    }
+                                    idicatorLenght += arrayIndicator[i].length
                                 }
                             }
                             //save to array
@@ -121,11 +135,8 @@ class FragmentUserInputPresenter @Inject constructor() : BasePresenter<FragmentU
                         }
                     }
                 }
-
             }
         }
-
         return arrayList
     }
-
 }

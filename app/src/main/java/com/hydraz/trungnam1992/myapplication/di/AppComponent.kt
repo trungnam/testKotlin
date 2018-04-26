@@ -1,5 +1,6 @@
 package com.hydraz.trungnam1992.myapplication.di
 
+import com.hydraz.trungnam1992.myapplication.ui.view.FragmentUserInput
 import com.hydraz.trungnam1992.myapplication.ui.view.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -9,8 +10,10 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(modules = arrayOf(AppModule::class))
-public interface AppComponent{
+interface AppComponent{
 
     fun inject(activity: MainActivity)
+
+    fun inject(input: FragmentUserInput)
 
 }

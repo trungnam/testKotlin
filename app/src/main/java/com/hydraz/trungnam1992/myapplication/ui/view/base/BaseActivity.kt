@@ -1,9 +1,9 @@
-package com.hydraz.trungnam1992.myapplication.ui.view
+package com.hydraz.trungnam1992.myapplication.ui.view.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import com.hydraz.trungnam1992.myapplication.ui.presenter.BasePresenter
+import com.hydraz.trungnam1992.myapplication.ui.view.BaseView
 
 /**
  * Created by trungnam1992 on 4/24/18.
