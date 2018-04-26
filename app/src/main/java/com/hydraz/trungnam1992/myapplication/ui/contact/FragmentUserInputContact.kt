@@ -1,6 +1,6 @@
 package com.hydraz.trungnam1992.myapplication.ui.contact
 
-import com.hydraz.trungnam1992.myapplication.ui.view.BaseView
+import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseView
 import io.reactivex.Observable
 import java.util.*
 
@@ -9,11 +9,14 @@ import java.util.*
  */
 class FragmentUserInputContact{
 
-    interface FragmentUserInputView : BaseView{
+    interface FragmentUserInputView : BaseView {
         fun summitStatus()
         fun changeFragment()
         fun inputMessage()
         fun showError(err : String)
+        fun enableSummirButton(bool : Boolean)
+        fun showLoadingBar()
+        fun hideLoadingBar()
     }
     interface Presenter{
         //todo

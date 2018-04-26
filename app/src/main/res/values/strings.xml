@@ -3,7 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="question_status">How are u today ? 👌</string>
+    <string name="question_status">How are u today ?</string>
     <string name="text_hint_share_your_thinking">Share your thinking :)</string>
     <string name="text_post_it_now">Post it now !</string>
 </resources>

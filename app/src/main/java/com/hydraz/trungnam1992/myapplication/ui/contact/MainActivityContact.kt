@@ -1,6 +1,6 @@
 package com.hydraz.trungnam1992.myapplication.ui.contact
 
-import com.hydraz.trungnam1992.myapplication.ui.view.BaseView
+import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseView
 import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseFragment
 
 /**
@@ -8,7 +8,7 @@ import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseFragment
  */
 class MainActivityContact{
 
-    interface MainView : BaseView{
+    interface MainView : BaseView {
         fun startInputFragment(fragment: BaseFragment)
     }
 

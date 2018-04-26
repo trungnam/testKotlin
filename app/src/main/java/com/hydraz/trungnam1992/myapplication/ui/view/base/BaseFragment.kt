@@ -2,7 +2,6 @@ package com.hydraz.trungnam1992.myapplication.ui.view.base
 
 import android.app.Fragment
 import android.os.Bundle
-import com.hydraz.trungnam1992.myapplication.ui.view.BaseView
 
 /**
  * Created by trungnam1992 on 4/24/18.

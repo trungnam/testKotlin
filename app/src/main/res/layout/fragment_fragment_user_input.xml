@@ -29,6 +29,7 @@
         <Button
             android:layout_centerInParent="true"
             android:id="@+id/btnPostStatus"
+            android:enabled="false"
             android:layout_below="@+id/textInputLayoutStatus"
             android:layout_width="wrap_content"
             android:text="@string/text_post_it_now"

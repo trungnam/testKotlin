@@ -1,57 +1,97 @@
 package com.hydraz.trungnam1992.myapplication.ui.presenter
 
+import android.content.Context
 import android.text.TextUtils
 import android.util.Log
+import com.hydraz.trungnam1992.myapplication.data.DataRepository
+import com.hydraz.trungnam1992.myapplication.model.Status
 import com.hydraz.trungnam1992.myapplication.ui.contact.FragmentUserInputContact
 import com.hydraz.trungnam1992.myapplication.utils.StringUtils
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 /**
  * Created by trungnam1992 on 4/25/18.
  */
-class FragmentUserInputPresenter @Inject constructor() : BasePresenter<FragmentUserInputContact.FragmentUserInputView>() , FragmentUserInputContact.Presenter {
+class FragmentUserInputPresenter @Inject constructor(
+            //todo
+            private val dataRepository: DataRepository,
+            private val compositeDisposable: CompositeDisposable
+        ) : BasePresenter<FragmentUserInputContact.FragmentUserInputView>() , FragmentUserInputContact.Presenter {
+
+    @Inject lateinit var mDataRepository: DataRepository
 
     private lateinit var mView : FragmentUserInputContact.FragmentUserInputView
 
+    private var arrSave : ArrayList<String> = ArrayList()
     override fun detachView(view: FragmentUserInputContact.FragmentUserInputView) = Unit
 
     override fun attachView(view: FragmentUserInputContact.FragmentUserInputView) {
         mView = view
+
     }
 
     override fun checkInputMessage(strMsg: String) {
-        PublishSubject.just(strMsg)
+
+        val disposable = PublishSubject.just(strMsg)
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .map({
                     //check empty before split msg
-                    if(it.isEmpty()){
+                    if (it.isEmpty()) {
                         throw Exception("Empty Message")
                     }
                     return@map it
                 })
                 .flatMap(
                         {
-                          return@flatMap  splitMessageObserverble(it)
+                            return@flatMap splitMessageObserverble(it)
                         }
-                ).subscribe(
-                        { arr : ArrayList<String> ->
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { arr: ArrayList<String> ->
                             Log.e("nnam :", "" + arr)
-                            if(arr.isEmpty()){
-                                throw Exception("Message cannot chunk")
+                            when {
+                                arr.isEmpty() -> throw Exception("Message cannot chunk")
+                                else -> {
+                                    mView.enableSummirButton(true)
+                                    arrSave = arr
+                                }
                             }
                             //to do save to DB
                         },
-                        { err : Throwable->
-                            //
+                        { err: Throwable ->
+                            //show error
                             mView.showError(err.message.toString())
+                            mView.enableSummirButton(false)
+
                         })
+
+        compositeDisposable.add(disposable)
 
     }
 
+    fun save(context: Context){
+        dataRepository.saveListStatus(arrSave ,context)
+
+//        dataRepository.getListStatus().delay(300, TimeUnit.MILLISECONDS)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe({
+//                    t ->
+//                    Log.e("dddxxx" , "" + t)
+//                }, {
+//                    t ->
+//                    Log.e("dddxxx" , "" + t.message)
+//                })
+    }
     override fun splitMessageObserverble(strMsg: String): Observable<ArrayList<String>> {
 
         return Observable.create {
@@ -64,6 +104,7 @@ class FragmentUserInputPresenter @Inject constructor() : BasePresenter<FragmentU
             }
         }
     }
+
 
     fun splitMessage(str: String): ArrayList<String> {
 

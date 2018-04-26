@@ -49,6 +49,18 @@ class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserI
     override fun showError(err: String) {
         textInputEditTextStatus.error = err
     }
+    override fun enableSummirButton(bool: Boolean) {
+        btnPostStatus.isEnabled = bool
+    }
+
+    override fun showLoadingBar() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun hideLoadingBar() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -69,5 +81,8 @@ class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserI
 
         })
 
+        btnPostStatus.setOnClickListener(View.OnClickListener {
+            mPresenter.save(context)
+        })
     }
 }
