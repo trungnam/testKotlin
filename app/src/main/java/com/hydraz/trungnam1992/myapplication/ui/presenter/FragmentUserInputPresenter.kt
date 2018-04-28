@@ -1,21 +1,22 @@
 package com.hydraz.trungnam1992.myapplication.ui.presenter
 
 import android.content.Context
+import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import com.hydraz.trungnam1992.myapplication.data.DataRepository
-import com.hydraz.trungnam1992.myapplication.model.Status
 import com.hydraz.trungnam1992.myapplication.ui.contact.FragmentUserInputContact
-import com.hydraz.trungnam1992.myapplication.utils.StringUtils
+import com.hydraz.trungnam1992.myapplication.ui.view.FragmentListStatus
+import com.hydraz.trungnam1992.myapplication.utils.InputStatusState
+import com.hydraz.trungnam1992.myapplication.utils.InputStatusState.ErrorState
+import com.hydraz.trungnam1992.myapplication.utils.InputStatusState.NormalState
 import io.reactivex.Observable
+import io.reactivex.Observable.create
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 /**
  * Created by trungnam1992 on 4/25/18.
@@ -26,18 +27,18 @@ open class FragmentUserInputPresenter @Inject constructor(
         var compositeDisposable: CompositeDisposable
 ) : BasePresenter<FragmentUserInputContact.FragmentUserInputView>(), FragmentUserInputContact.Presenter {
 
-    @Inject
-    lateinit var mDataRepository: DataRepository
+    override var state: InputStatusState = NormalState
 
     lateinit var mView: FragmentUserInputContact.FragmentUserInputView
 
-    var arrSave: ArrayList<String> = ArrayList()
+    private var mArraySatusSave: ArrayList<String> = ArrayList()
 
-    override fun detachView(view: FragmentUserInputContact.FragmentUserInputView) = Unit
+
+    override fun detachView(view: FragmentUserInputContact.FragmentUserInputView
+    ) = Unit
 
     override fun attachView(view: FragmentUserInputContact.FragmentUserInputView) {
         mView = view
-
     }
 
     override fun checkInputMessage(strMsg: String) {
@@ -47,7 +48,9 @@ open class FragmentUserInputPresenter @Inject constructor(
                 .map({
                     //check empty before split msg
                     if (it.isEmpty()) {
+                        state = ErrorState("Empty Message")
                         throw Exception("Empty Message")
+
                     }
                     return@map it
                 })
@@ -60,12 +63,16 @@ open class FragmentUserInputPresenter @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { arr: ArrayList<String> ->
-                            Log.e("nnam :", "" + arr)
                             when {
-                                arr.isEmpty() -> throw Exception("Message cannot chunk")
+                                arr.isEmpty() -> {
+                                    state = ErrorState("Message cannot chunk")
+                                    throw Exception("Message cannot chunk")
+
+                                }
                                 else -> {
+                                    state = NormalState
                                     mView.enableSummirButton(true)
-                                    arrSave = arr
+                                    mArraySatusSave = arr
                                 }
                             }
                             //to do save to DB
@@ -81,30 +88,18 @@ open class FragmentUserInputPresenter @Inject constructor(
 
     }
 
-    fun save(context: Context) {
-        dataRepository.saveListStatus(arrSave, context)
+    override fun saveStatus(context: Context) {
+        dataRepository.saveListStatus(mArraySatusSave, context)
+        val fragmentListStatus = FragmentListStatus().apply {
+            arguments = Bundle()
+        }
+        mView.changeFragment(fragmentListStatus)
 
-//        dataRepository.getListStatus().delay(300, TimeUnit.MILLISECONDS)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({
-//                    t ->
-//                    Log.e("dddxxx" , "" + t)
-//                }, {
-//                    t ->
-//                    Log.e("dddxxx" , "" + t.message)
-//                })
     }
 
     override fun splitMessageObserverble(strMsg: String): Observable<ArrayList<String>> {
-
-        return Observable.create {
-            try {
-
-                it.onNext(splitMessage(strMsg))
-
-            } catch (e: Exception) {
-
-            }
+        return create {
+            it.onNext(splitMessage(strMsg))
         }
     }
 

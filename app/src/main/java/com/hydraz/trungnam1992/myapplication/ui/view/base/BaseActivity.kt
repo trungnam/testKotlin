@@ -31,7 +31,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseView {
     }
 
     fun changeFragment(fragment: BaseFragment){
-        //
+        //change
         fragmentManager.beginTransaction().add(android.R.id.content, fragment).commit()
     }
 

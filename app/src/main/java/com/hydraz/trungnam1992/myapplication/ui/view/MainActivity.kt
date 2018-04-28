@@ -24,7 +24,7 @@ class MainActivity : BaseActivity(), MainActivityContact.MainView {
 
     override fun initializePresenter() {
         mPresenter.attachView(this)
-        mPresenter.statFragment()
+        mPresenter.statInputFragment()
     }
 
     override fun startInputFragment(fragment: BaseFragment) {

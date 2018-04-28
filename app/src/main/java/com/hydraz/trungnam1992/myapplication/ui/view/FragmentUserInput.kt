@@ -14,7 +14,7 @@ import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_fragment_user_input.*
 import javax.inject.Inject
 
-open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserInputView {
+open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserInputView, View.OnClickListener {
 
     @Inject
     lateinit var mPresenter : FragmentUserInputPresenter
@@ -35,11 +35,14 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
     }
 
     override fun summitStatus() {
-
+        context?.let {
+            mPresenter.saveStatus(it)
+        }
     }
 
-    override fun changeFragment() {
-
+    override fun changeFragment(fragmentList: BaseFragment) {
+        val activity = activity as MainActivity
+        activity.changeFragment(fragmentList)
     }
 
     override fun inputMessage() {
@@ -54,16 +57,13 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
     }
 
     override fun showLoadingBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun hideLoadingBar() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater?.inflate(R.layout.fragment_fragment_user_input, container, false)
     }
 
@@ -81,9 +81,14 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
 
         })
 
-        btnPostStatus.setOnClickListener(View.OnClickListener {
-            mPresenter.save(context)
-        })
+        btnPostStatus.setOnClickListener(this)
+
+    }
+
+    override fun onClick(view: View?) {
+        when {
+            view?.id == btnPostStatus.id -> summitStatus()
+        }
     }
 
     override fun onDetach() {

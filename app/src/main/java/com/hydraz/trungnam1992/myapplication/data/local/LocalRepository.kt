@@ -18,7 +18,6 @@ import io.realm.exceptions.RealmException
  */
 class LocalRepository @Inject constructor(realm: Realm) : LocalResource {
 
-
     val mRealm: Realm = realm
     override fun getStatus(): Single<ArrayList<Status>> {
 
@@ -42,8 +41,6 @@ class LocalRepository @Inject constructor(realm: Realm) : LocalResource {
 
     }
     override fun saveStatus(array: ArrayList<String>, context: Context) {
-        Log.e("LocalRepository" , "" + array)
-
         mRealm.executeTransaction({ realm ->
             try {
                 for(stringsts : String in array){

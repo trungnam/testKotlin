@@ -1,6 +1,9 @@
 package com.hydraz.trungnam1992.myapplication.ui.contact
 
+import android.content.Context
+import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseFragment
 import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseView
+import com.hydraz.trungnam1992.myapplication.utils.InputStatusState
 import io.reactivex.Observable
 import java.util.*
 
@@ -11,7 +14,7 @@ open class FragmentUserInputContact {
 
     interface FragmentUserInputView : BaseView {
         fun summitStatus()
-        fun changeFragment()
+        fun changeFragment(fragmentList: BaseFragment)
         fun inputMessage()
         fun showError(err: String)
         fun enableSummirButton(bool: Boolean)
@@ -20,10 +23,13 @@ open class FragmentUserInputContact {
     }
 
     interface Presenter {
-        //todo
+        var state: InputStatusState
+
         fun checkInputMessage(strMsg: String)
 
         fun splitMessageObserverble(strMsg: String): Observable<ArrayList<String>>
+
+        fun saveStatus(context: Context)
     }
 
 }

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/txtViewQuestion"
             android:id="@+id/textInputLayoutStatus"
-            android:padding="@dimen/dimen_small"
+            android:padding="@dimen/small_padding"
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText

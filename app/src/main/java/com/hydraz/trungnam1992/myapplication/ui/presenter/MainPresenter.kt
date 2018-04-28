@@ -2,6 +2,7 @@ package com.hydraz.trungnam1992.myapplication.ui.presenter
 
 import android.os.Bundle
 import com.hydraz.trungnam1992.myapplication.ui.contact.MainActivityContact
+import com.hydraz.trungnam1992.myapplication.ui.view.FragmentListStatus
 import com.hydraz.trungnam1992.myapplication.ui.view.FragmentUserInput
 import javax.inject.Inject
 
@@ -23,7 +24,8 @@ class MainPresenter @Inject constructor(
         mView = view
     }
 
-    override fun statFragment() {
+    override fun statInputFragment() {
         mView.startInputFragment(FragmentUserInput.newInstance(Bundle()))
+//        mView.startInputFragment(FragmentListStatus.newInstance(Bundle()))
     }
 }

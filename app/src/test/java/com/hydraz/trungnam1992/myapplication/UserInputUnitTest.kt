@@ -15,7 +15,8 @@ import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.powermock.api.mockito.PowerMockito
-import org.powermock.api.mockito.PowerMockito.*
+import org.powermock.api.mockito.PowerMockito.`when`
+import org.powermock.api.mockito.PowerMockito.mockStatic
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 
@@ -40,11 +41,13 @@ class UserInputUnitTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this);
+        //for TextUtils mock
         mockStatic(TextUtils::class.java)
         PowerMockito.`when`(TextUtils.isEmpty(any(CharSequence::class.java))).thenAnswer { invocation ->
             val a = invocation.arguments[0] as CharSequence
             return@thenAnswer !(a.isNotEmpty())
         }
+        //Presenter
         compositeDisposable = CompositeDisposable()
         userInputPresenter = FragmentUserInputPresenter(dataRepository, compositeDisposable)
         userInputPresenter.attachView(view)
@@ -83,7 +86,6 @@ class UserInputUnitTest {
     fun `user input error status`() {
 
         stubErrMessageObserverble()
-
         verify(view).enableSummirButton(false)
         verify(view).showError("Message cannot chunk")
 
@@ -93,7 +95,6 @@ class UserInputUnitTest {
     fun `user input empty status`() {
 
         stubEmptyMessageObserverble()
-
         verify(view).enableSummirButton(false)
         verify(view).showError("Empty")
 

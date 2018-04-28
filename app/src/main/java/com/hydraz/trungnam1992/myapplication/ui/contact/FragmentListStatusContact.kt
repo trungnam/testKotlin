@@ -10,12 +10,14 @@ class FragmentListStatusContact {
     interface ListStatusFragmentView : BaseView {
 
         fun showLoadingBar()
+
         fun hideLoadingBar()
+
         fun disPlayListStatus(array: ArrayList<Status>)
 
     }
 
     interface Presenter {
-
+        fun loadListStatusData()
     }
 }

@@ -13,7 +13,7 @@ class DataRepository @Inject constructor(
         var localRepository: LocalRepository
 ) : DataSource{
     override fun saveListStatus(array: ArrayList<String>, context : Context) {
-        localRepository.saveStatus(array ,context)
+        return localRepository.saveStatus(array ,context)
     }
 
 
