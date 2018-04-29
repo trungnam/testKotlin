@@ -20,8 +20,6 @@ import org.powermock.modules.junit4.PowerMockRunner
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.plugins.RxAndroidPlugins
 
-
-
 /**
  * Created by trungnam1992 on 4/29/18.
  */
@@ -33,13 +31,15 @@ class FragmentListStatusPresenterUnitTest {
     @Mock
     lateinit var mDataRepository: DataRepository
     @Mock
+    lateinit var compositeDisposable: CompositeDisposable
+    @Mock
     lateinit var view: FragmentListStatusContact.ListStatusFragmentView
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { scheduler -> Schedulers.trampoline() }
-        fragmentListStatusPresenter = FragmentListStatusPresenter(mDataRepository)
+        fragmentListStatusPresenter = FragmentListStatusPresenter(mDataRepository, compositeDisposable)
         fragmentListStatusPresenter.attachView(view)
     }
 
@@ -54,8 +54,8 @@ class FragmentListStatusPresenterUnitTest {
         verify(view, times(1)).hideLoadingBar();
         verify(view, times(1)).disPlayListStatus(arrStub);
 
-
     }
+
     @Test
     fun testStatusDisplayError() {
 
