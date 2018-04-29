@@ -88,10 +88,6 @@ open class FragmentUserInputPresenter @Inject constructor(
 
     }
 
-    override fun disposableRx() {
-        compositeDisposable.dispose()
-    }
-
     override fun saveStatus(context: Context) {
         dataRepository.saveListStatus(mArraySatusSave, context)
         val fragmentListStatus = FragmentListStatus.newInstance(Bundle())

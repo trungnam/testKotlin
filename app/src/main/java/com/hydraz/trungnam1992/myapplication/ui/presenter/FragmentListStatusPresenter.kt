@@ -39,8 +39,4 @@ open class FragmentListStatusPresenter
                 })
         compositeDisposable.add(disposable)
     }
-
-    override fun disposableRx() {
-        compositeDisposable.dispose()
-    }
 }

@@ -104,8 +104,4 @@ class FragmentListStatus : BaseFragment(), FragmentListStatusContact.ListStatusF
         activity.changeFragment(fragment)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mPresenter.disposableRx()
-    }
 }

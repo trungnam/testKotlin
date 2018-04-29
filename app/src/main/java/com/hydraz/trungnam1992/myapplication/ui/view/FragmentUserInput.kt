@@ -29,6 +29,11 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
             return FragmentUserInput()
         }
     }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val mainActivity: MainActivity = activity as MainActivity
+        mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
 
     override fun initializePresenter() {
         mPresenter.attachView(this)
@@ -88,7 +93,11 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
 
         btnPostStatus.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                summitStatus()
+                if (textInputEditTextStatus.text.isEmpty()){
+                    showError("Empty Message")
+                }else{
+                    summitStatus()
+                }
             }
 
         })
@@ -99,8 +108,4 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
         mPresenter.detachView(this)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        mPresenter.disposableRx()
-    }
 }

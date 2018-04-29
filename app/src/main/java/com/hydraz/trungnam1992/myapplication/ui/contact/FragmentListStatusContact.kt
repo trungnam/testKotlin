@@ -21,7 +21,5 @@ class FragmentListStatusContact {
 
     interface Presenter {
         fun loadListStatusData()
-
-        fun disposableRx()
     }
 }

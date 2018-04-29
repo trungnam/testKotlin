@@ -30,8 +30,6 @@ open class FragmentUserInputContact {
         fun splitMessageObserverble(strMsg: String): Observable<ArrayList<String>>
 
         fun saveStatus(context: Context)
-
-        fun disposableRx()
     }
 
 }
