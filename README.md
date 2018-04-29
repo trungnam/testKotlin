@@ -1,5 +1,5 @@
 # tweeter (Assignment - Project TwitSplit)
-android-kotlin-mvp-dragger
+android-kotlin-mvp-dragger whith clean Architechture
 
 ```splitMessage``` is Test in FragmentUserInputPresenterUnitTest
 
