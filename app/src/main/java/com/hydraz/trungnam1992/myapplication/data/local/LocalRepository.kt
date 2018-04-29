@@ -1,16 +1,14 @@
 package com.hydraz.trungnam1992.myapplication.data.local
 
 import android.content.Context
-import android.util.Log
+import android.widget.Toast
 import com.hydraz.trungnam1992.myapplication.model.Status
 import io.reactivex.Single
-import io.realm.Realm
-import javax.inject.Inject
-import android.widget.Toast
 import io.reactivex.Single.create
 import io.reactivex.SingleEmitter
-import io.realm.RealmChangeListener
+import io.realm.Realm
 import io.realm.exceptions.RealmException
+import javax.inject.Inject
 
 
 /**
@@ -32,6 +30,7 @@ class LocalRepository @Inject constructor(realm: Realm) : LocalResource {
           }
             when {
                 arr.isEmpty() -> e.onError(throw Throwable("No status found!"))
+
                 else -> {
                     e.onSuccess(arr)
                 }

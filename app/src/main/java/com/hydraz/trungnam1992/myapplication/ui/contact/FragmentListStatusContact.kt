@@ -1,6 +1,7 @@
 package com.hydraz.trungnam1992.myapplication.ui.contact
 
 import com.hydraz.trungnam1992.myapplication.model.Status
+import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseFragment
 import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseView
 
 /**
@@ -15,6 +16,7 @@ class FragmentListStatusContact {
 
         fun disPlayListStatus(array: ArrayList<Status>)
 
+        fun backToInput(fragment: BaseFragment)
     }
 
     interface Presenter {

@@ -1,5 +1,7 @@
 package com.hydraz.trungnam1992.myapplication.ui.view
 
+import android.view.Menu
+import android.view.MenuItem
 import com.hydraz.trungnam1992.myapplication.App
 import com.hydraz.trungnam1992.myapplication.R
 import com.hydraz.trungnam1992.myapplication.ui.contact.MainActivityContact
@@ -31,4 +33,7 @@ class MainActivity : BaseActivity(), MainActivityContact.MainView {
         changeFragment(fragment)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return false;
+    }
 }

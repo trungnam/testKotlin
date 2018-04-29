@@ -90,11 +90,8 @@ open class FragmentUserInputPresenter @Inject constructor(
 
     override fun saveStatus(context: Context) {
         dataRepository.saveListStatus(mArraySatusSave, context)
-        val fragmentListStatus = FragmentListStatus().apply {
-            arguments = Bundle()
-        }
+        val fragmentListStatus = FragmentListStatus.newInstance(Bundle())
         mView.changeFragment(fragmentListStatus)
-
     }
 
     override fun splitMessageObserverble(strMsg: String): Observable<ArrayList<String>> {
@@ -111,8 +108,10 @@ open class FragmentUserInputPresenter @Inject constructor(
         when {
             str.isEmpty() ->
                 return arrayList
+
             str.length < 50 ->
                 return arrayListOf(str)
+
             str.length > 50 -> {
                 //to do
                 val strMsg = str

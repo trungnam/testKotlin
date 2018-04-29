@@ -14,14 +14,18 @@ import com.hydraz.trungnam1992.myapplication.ui.view.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_fragment_user_input.*
 import javax.inject.Inject
 
-open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserInputView, View.OnClickListener {
+open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.FragmentUserInputView {
 
     @Inject
-    lateinit var mPresenter : FragmentUserInputPresenter
+    lateinit var mPresenter: FragmentUserInputPresenter
+
+    init {
+        retainInstance = true
+    }
 
     companion object {
         @JvmStatic
-        fun newInstance(bundle: Bundle) : FragmentUserInput{
+        fun newInstance(bundle: Bundle): FragmentUserInput {
             return FragmentUserInput()
         }
     }
@@ -52,6 +56,7 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
     override fun showError(err: String) {
         textInputEditTextStatus.error = err
     }
+
     override fun enableSummirButton(bool: Boolean) {
         btnPostStatus.isEnabled = bool
     }
@@ -70,7 +75,7 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        textInputEditTextStatus.addTextChangedListener(object : TextWatcher{
+        textInputEditTextStatus.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) = Unit
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
@@ -81,14 +86,12 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
 
         })
 
-        btnPostStatus.setOnClickListener(this)
+        btnPostStatus.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                summitStatus()
+            }
 
-    }
-
-    override fun onClick(view: View?) {
-        when {
-            view?.id == btnPostStatus.id -> summitStatus()
-        }
+        })
     }
 
     override fun onDetach() {

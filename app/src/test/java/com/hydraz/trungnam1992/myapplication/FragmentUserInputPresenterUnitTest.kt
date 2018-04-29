@@ -26,7 +26,7 @@ import org.powermock.modules.junit4.PowerMockRunner
  */
 @PrepareForTest(TextUtils::class, CompositeDisposable::class, DataRepository::class, Observable::class)
 @RunWith(PowerMockRunner::class)
-class UserInputUnitTest {
+class FragmentUserInputPresenterUnitTest {
     @Mock
     lateinit var userInputPresenter: FragmentUserInputPresenter
     @Mock
@@ -52,7 +52,6 @@ class UserInputUnitTest {
         userInputPresenter = FragmentUserInputPresenter(dataRepository, compositeDisposable)
         userInputPresenter.attachView(view)
 
-
     }
 
     @Test
@@ -73,7 +72,6 @@ class UserInputUnitTest {
         val strbellow50lenght = "I can't believe Tweeter now supports"
         val arrLowStub = userInputPresenter.splitMessage(strbellow50lenght)
         Assert.assertEquals(strbellow50lenght.length, arrLowStub[0].length)
-
 
         // dangerous msg case
         val strbUserInputErrorSpan = "I can't believe Tweeter now supports thisthisthisthisthisthisthisthisthisthis"

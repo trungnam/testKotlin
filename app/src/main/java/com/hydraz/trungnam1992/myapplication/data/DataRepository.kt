@@ -16,7 +16,6 @@ class DataRepository @Inject constructor(
         return localRepository.saveStatus(array ,context)
     }
 
-
     override fun getListStatus(): Single<ArrayList<Status>> {
         return localRepository.getStatus()
     }

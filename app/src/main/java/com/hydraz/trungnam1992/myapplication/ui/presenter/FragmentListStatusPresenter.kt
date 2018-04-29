@@ -1,5 +1,6 @@
 package com.hydraz.trungnam1992.myapplication.ui.presenter
 
+import android.util.Log
 import com.hydraz.trungnam1992.myapplication.data.DataRepository
 import com.hydraz.trungnam1992.myapplication.model.Status
 import com.hydraz.trungnam1992.myapplication.ui.contact.FragmentListStatusContact
@@ -12,7 +13,7 @@ import javax.inject.Inject
  */
 open class FragmentListStatusPresenter
 @Inject constructor(
-        var mDataRepository: DataRepository)
+        private var mDataRepository: DataRepository)
     : BasePresenter<FragmentListStatusContact.ListStatusFragmentView>(), FragmentListStatusContact.Presenter {
 
     lateinit var mView: FragmentListStatusContact.ListStatusFragmentView
@@ -28,7 +29,6 @@ open class FragmentListStatusPresenter
     override fun loadListStatusData() {
         mView.showLoadingBar()
         mDataRepository.getListStatus()
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: ArrayList<Status> ->
                     mView.disPlayListStatus(t)
