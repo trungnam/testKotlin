@@ -98,4 +98,9 @@ open class FragmentUserInput : BaseFragment(), FragmentUserInputContact.Fragment
         super.onDetach()
         mPresenter.detachView(this)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mPresenter.disposableRx()
+    }
 }

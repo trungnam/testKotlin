@@ -1,11 +1,10 @@
 package com.hydraz.trungnam1992.myapplication.ui.presenter
 
-import android.util.Log
 import com.hydraz.trungnam1992.myapplication.data.DataRepository
 import com.hydraz.trungnam1992.myapplication.model.Status
 import com.hydraz.trungnam1992.myapplication.ui.contact.FragmentListStatusContact
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -13,7 +12,8 @@ import javax.inject.Inject
  */
 open class FragmentListStatusPresenter
 @Inject constructor(
-        private var mDataRepository: DataRepository)
+        private var dataRepository: DataRepository,
+        private var compositeDisposable: CompositeDisposable)
     : BasePresenter<FragmentListStatusContact.ListStatusFragmentView>(), FragmentListStatusContact.Presenter {
 
     lateinit var mView: FragmentListStatusContact.ListStatusFragmentView
@@ -28,7 +28,7 @@ open class FragmentListStatusPresenter
 
     override fun loadListStatusData() {
         mView.showLoadingBar()
-        mDataRepository.getListStatus()
+        val disposable = dataRepository.getListStatus()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ t: ArrayList<Status> ->
                     mView.disPlayListStatus(t)
@@ -37,6 +37,10 @@ open class FragmentListStatusPresenter
                     //todo
                     mView.hideLoadingBar()
                 })
+        compositeDisposable.add(disposable)
     }
 
+    override fun disposableRx() {
+        compositeDisposable.dispose()
+    }
 }

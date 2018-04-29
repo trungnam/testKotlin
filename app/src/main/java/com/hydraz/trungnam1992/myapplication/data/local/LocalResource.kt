@@ -9,7 +9,6 @@ import java.security.AccessControlContext
  * Created by trungnam1992 on 4/24/18.
  */
 interface LocalResource {
-
     fun getStatus(): Single<ArrayList<Status>>
     fun saveStatus(array: ArrayList<String>, context: Context)
 }
