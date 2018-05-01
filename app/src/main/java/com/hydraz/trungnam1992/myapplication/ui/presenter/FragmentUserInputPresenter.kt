@@ -106,14 +106,15 @@ open class FragmentUserInputPresenter @Inject constructor(
         val arrayList: ArrayList<String> = ArrayList()
 
         when {
+        //input empty return null arr
             str.isEmpty() ->
                 return arrayList
-
-            str.length < 50 ->
+        //input less or equal 50 char return str input
+            str.length <= 50 ->
                 return arrayListOf(str)
-
+        //input > 50 handle
             str.length > 50 -> {
-                //to do
+
                 val strMsg = str
                 val lenghtOfMsg = strMsg.length
                 val size = strMsg.length / 50
