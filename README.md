@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/trungnam/tweeter.svg?branch=ci_travis_build)](https://travis-ci.org/trungnam/tweeter)
+
 # tweeter (Assignment - Project TwitSplit)
 android-kotlin-mvp-dragger whith clean Architechture
 
