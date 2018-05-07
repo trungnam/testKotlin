@@ -9,40 +9,6 @@ jacoco {
     toolVersion = '0.8.1'
 }
 
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = ['**/R.class',
-                      '**/R$*.class',
-                      '**/BuildConfig.*',
-                      '**/Manifest*.*',
-                      '**/*Test*.*',
-                      'android/**/*.*',
-                      '**/*InjectAdapter*.*',
-                      '**/*StaticInjection*.*',
-                      '**/*ModuleAdapter*.*']
-    def javaClasses = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
-    def kotlinClasses = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def javaSrc = "$project.projectDir/src/main/java"
-    def kotlinSrc = "$project.projectDir/src/main/kotlin"
-
-    sourceDirectories = files([javaSrc, kotlinSrc])
-    classDirectories = files([javaClasses, kotlinClasses])
-    executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
-
-}
-
-
 android {
     compileSdkVersion 25
     buildToolsVersion '27.0.3'
@@ -118,3 +84,37 @@ dependencies {
 configurations.all {
     resolutionStrategy.force 'com.android.support:support-annotations:27.1.1'
 }
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class',
+                      '**/R$*.class',
+                      '**/BuildConfig.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                      'android/**/*.*',
+                      '**/*InjectAdapter*.*',
+                      '**/*StaticInjection*.*',
+                      '**/*ModuleAdapter*.*']
+    def javaClasses = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
+    def kotlinClasses = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def javaSrc = "$project.projectDir/src/main/java"
+    def kotlinSrc = "$project.projectDir/src/main/kotlin"
+
+    sourceDirectories = files([javaSrc, kotlinSrc])
+    classDirectories = files([javaClasses, kotlinClasses])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
+
+}
+
