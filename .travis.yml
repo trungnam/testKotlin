@@ -60,4 +60,4 @@ after_success:
 
 branches:
         only:
-                - ci_travis_build
+                - master
