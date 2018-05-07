@@ -27,6 +27,10 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 
 }
 
@@ -65,6 +69,15 @@ dependencies {
     testImplementation 'org.powermock:powermock-api-mockito2:1.7.3'
     testImplementation 'org.powermock:powermock-module-junit4:1.7.3'
 
+}
+jacocoAndroidUnitTestReport {
+    csv.enabled false
+    html.enabled true
+    xml.enabled true
+}
+jacocoAndroidUnitTestReport {
+    excludes += ['**/AutoValue_*.*',
+                 '**/*JavascriptBridge.class']
 }
 //work around
 configurations.all {
