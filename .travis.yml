@@ -46,7 +46,7 @@ script:
         - ./gradlew clean
         - ./gradlew assembleDebug
         - ./gradlew assembleDebugAndroidTest
-        - ./gradlew build jacocoTestReport assembleAndroidTest
+#        - ./gradlew build jacocoTestReport assembleAndroidTest
         - ./gradlew connectedCheck
 
 before_install:
